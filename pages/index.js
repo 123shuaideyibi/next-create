@@ -1,88 +1,47 @@
 import React from 'react'
-import Head from 'next/head'
-import Nav from '../components/nav'
+import Link from 'next/link'
+import Router from 'next/router'
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const Home = () => {
+  // routeChangeStart、routeChangeComplete、beforeHistoryChange、
+  // hashChangeStart、hashChangeComplete
 
-    <Nav />
+  Router.events.on('routeChangeStart', (...args) => {
+    console.log('1.routeChangeStart->路由开始变化，参数为：', ...args)
+  })
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+  Router.events.on('routeChangeComplete', (...args) => {
+    console.log('2.routeChangeComplete->路由变化结束，参数为：', ...args)
+  })
 
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-      </div>
-    </div>
+  Router.events.on('beforeHistoryChange', (...args) => {
+    console.log('3.beforeHistoryChange->浏览器history触发之前，参数为：', ...args)
+  })
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
+  Router.events.on('routeChangeError', (...args) => {
+    console.log('4.routeChangeError->路由发生错误，参数为：', ...args)
+  })
+
+
+  Router.events.on('hashChangeStart', (...args) => {
+    console.log('5.hashChangeStart->hash开始变化，参数为：', ...args)
+  })
+
+  Router.events.on('hashChangeComplete', (...args) => {
+    console.log('6.hashChangeComplete->hash结束变化，参数为：', ...args)
+  })
+
+  return (
+    <>
+      <div>我是首页</div>
+      <Link href={{ pathname: '/xiaojiejie', query: { name: '结衣' } }}><a>选择结衣</a></Link><br />
+      <Link href='/xiaojiejie?name=井空'><a>选择井空</a></Link><br/>
+
+      {/* 关键代码 */}
+      <Link href='#jspang'><a>选技术胖</a></Link>
+    </>
+  )
+}
+
 
 export default Home
